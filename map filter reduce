@@ -1,0 +1,9 @@
+let nums = [1,2,3,4];
+
+console.log(nums.map((x)=>{return x+1})); // all value appended 
+
+console.log(nums.filter((x)=>{return x%2}));// append x if true
+
+console.log(nums.reduce((single,x)=>
+{return single+x})) // return single value based on x
+
