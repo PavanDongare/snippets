@@ -1,0 +1,13 @@
+let nums = [1,2,3,4];
+
+let n = {
+    a:1,
+    b:'2'
+}
+
+console.log(nums.__proto__) // Object(0) []
+
+console.log(nums.__proto__.__proto__)// [Object: null prototype] {}
+
+nums.__proto__ = n
+console.log(nums.__proto__) // { a: 1, b: '2' }
