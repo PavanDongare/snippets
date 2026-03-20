@@ -1,0 +1,14 @@
+let nums = [1,2,[3,3,[242],,[3,2,4213,'',[2]]],'',[3]];
+
+let nums2 = [];
+
+function extract(nums){
+     nums.filter(x=>{
+        if(x.length) {
+             extract(x);
+        }
+        else nums2.push(x);
+    })
+    return nums2;
+}
+console.log(extract(nums));
