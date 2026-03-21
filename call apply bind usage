@@ -1,0 +1,14 @@
+const a = {
+    name:'pavan',
+    getAddress (city){
+        console.log(this.name,"is from", city)
+    }
+}
+a.getAddress('pune');
+let f = a.getAddress ;
+f('pune'); 
+
+f.call(a,'mumbai')
+f.apply(a,['trichy'])
+f.bind(a)('blr')
+
