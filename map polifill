@@ -1,0 +1,10 @@
+Array.prototype.map1 = function(fn){
+    let a = [];
+    this.forEach(x=>{
+        a.push(fn(x));
+        return x
+    })
+    return a;
+}
+  console.log(a.map1(y=>y+1));
+  console.log(a.map(y=>y+1));
