@@ -11,4 +11,13 @@ f('pune');
 f.call(a,'mumbai')
 f.apply(a,['trichy'])
 f.bind(a)('blr')
+---------------
+function greet() {
+  console.log(`Hello, ${this.name}`);
+}
+
+const person = { name: "Alice" };
+greet(); // undefined
+person.greet = greet;
+person.greet(); 
 
