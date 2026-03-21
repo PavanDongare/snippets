@@ -1,0 +1,25 @@
+/*
+bind - returns a function  with bind this to passed obj argument
+*/
+
+function fn(msg,qsn){
+    console.log(msg+" "+this.name+" "+ qsn)
+}
+let obj ={
+    name:'pavan',
+}
+// let f = fn.bind(obj,'hello');
+// f('how are you');
+
+Function.prototype.applying = function(obj,args){
+    let f = this;
+    obj.f = f;
+    const r = obj.f(...args);
+    delete obj.f;
+    return r
+}
+
+fn.applying(obj,['hey','how are you'])
+
+
+
