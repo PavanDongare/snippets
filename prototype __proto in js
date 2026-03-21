@@ -1,2 +1,37 @@
 // inheritance in js
 // adding methods to in built, to objects, to functions 
+
+
+let a = [];
+undefined
+a.create();
+VM397:1 Uncaught TypeError: a.create is not a function
+    at <anonymous>:1:3
+(anonymous) @ VM397:1
+Object.prototype.create = ()=> {console.log('a')}
+()=> {console.log('a')}
+a.create();
+VM529:1 a
+undefined
+    a.__proto__
+[at: ƒ, concat: ƒ, copyWithin: ƒ, fill: ƒ, find: ƒ, …]
+    a.__proto__ === Object.prototype
+false
+let a = 2;
+undefined
+    a.__proto__ === Object.prototype
+false
+a.__proto__
+Number {0, toExponential: ƒ, toFixed: ƒ, toPrecision: ƒ, toString: ƒ, …}
+a.__proto__.__proto__
+{create: ƒ, __defineGetter__: ƒ, __defineSetter__: ƒ, hasOwnProperty: ƒ, __lookupGetter__: ƒ, …}
+a.__proto__.__proto__ === Object.prototype
+true
+Number();
+0
+Array();
+[]
+new Number();
+Number {0}
+new Array();
+[]
