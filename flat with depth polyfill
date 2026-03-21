@@ -1,0 +1,23 @@
+let a = [2,[3,2],3,[4,3,4]]
+
+
+Array.prototype.flatNew = function(d){
+    let aNew= [];
+    let og = this;
+    
+    function f(og){
+        og.forEach(x=>{
+            if(x.length>1 && d>0){
+                d--;
+                f(x);
+            }
+              
+            else aNew.push(x)
+        })
+    }
+    f(og);
+    
+    return aNew;
+}
+
+console.log(a.flatNew(2));
