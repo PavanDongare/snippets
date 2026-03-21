@@ -1,3 +1,11 @@
+/*
+The main purpose of bind is:
+
+To create a new function where this is permanently fixed to a specific object, 
+so that inside the function you can reliably use this to access that object, 
+no matter how or where the function is called.
+*/
+
 const a = {
     name:'pavan',
     getAddress (city){
