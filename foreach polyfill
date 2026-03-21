@@ -1,0 +1,19 @@
+let a = [2,4,5,3445,3,53,43]
+
+let k = a.forEach((x)=>{
+    console.log(x)
+})
+
+Array.prototype.forEach1 = function(fn){
+    if(Array.isArray(this)){
+        for(let i=0 ; i< this.length;i++){
+            fn(this[i]);
+        }
+    }
+}
+
+k = a.forEach1((x)=>{
+    console.log(x)
+})
+
+
