@@ -1,0 +1,59 @@
+function myPromise(executeFn){
+    this.value = undefined;
+    this.callbacks = [];
+    this.status = 'pending' ;
+    
+    const resolve = (val) => {
+        if (this.status!='pending') return; // avoid multiple settle
+        this.status = 'success';
+        this.value = val;
+        this.callbacks.forEach((x)=>{
+            x.suc ? x.suc(val): x.fail(val)
+        })
+    }
+    
+    const reject=(val)=>{
+        if (this.status!='pending') return; // avoid multiple settle
+         this.status = 'failed';
+         this.value = val;
+         this.callbacks.forEach((x)=>{
+            x.fail && x.fail(val)
+        })
+    }
+    
+    executeFn(resolve,reject);
+}
+
+myPromise.prototype.then = function(suc,fail){ 
+    if(this.status =='success') 
+        suc(this.value);
+    else if(this.status=='failed') 
+        fail(this.value);
+    else
+    this.callbacks.push({suc,fail})
+}
+myPromise.prototype.catch = function(f) {
+    return this.then(null,f)
+}
+
+const p = new myPromise((res,rej)=>{
+    setTimeout(()=>{
+        console.log('work done');
+         res('resolved to 1')
+        rej('failed with rej');
+       
+    },2000)
+});
+
+p.then((x)=>console.log('msg on worked callback',x,'\n'),
+(x)=>{console.log('msg on failed callback-',x,'\n')});
+p.catch(x=>console.log(x));
+
+console.log(p);
+setTimeout(()=>{
+        console.log(p);
+    },3000);
+
+p.then((x)=>console.log('msg on worked callback',x,'\n'),(x)=>{console.log('msg on failed callback-',x,'\n')});
+p.catch(x=>console.log(x));
+
