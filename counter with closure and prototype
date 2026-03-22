@@ -1,0 +1,31 @@
+const counter = () =>{
+    let count=0;
+    return {
+        inc : ()=> ++count,
+        dec : ()=> --count,
+        get : ()=> count
+    }
+   
+}
+
+let c = counter();
+
+c.inc();
+c.inc();
+c.inc();
+c.dec();
+console.log(c.get());
+
+function counter_fn(){
+    this.count = 0;
+}
+counter_fn.prototype.inc = function(){ return ++this.count}
+
+counter_fn.prototype.dec = function(){ return --this.count}
+
+counter_fn.prototype.get = function(){ return this.count}
+
+const c1 = new counter_fn();
+c1.inc();
+console.log(c1.get());
+console.log(c1.count);
