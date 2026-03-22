@@ -1,59 +1,73 @@
-function myPromise(executeFn){
-    this.value = undefined;
-    this.callbacks = [];
-    this.status = 'pending' ;
-    
+function myPromise(executeFn) {
+    this.value = undefined;       // resolved value or rejection reason
+    this.status = 'pending';      // 'pending', 'success', 'failed'
+    this.callbacks = [];           // store {suc, fail} objects
+
     const resolve = (val) => {
-        if (this.status!='pending') return; // avoid multiple settle
+        if (this.status !== 'pending') return; // only first call matters
         this.status = 'success';
         this.value = val;
-        this.callbacks.forEach((x)=>{
-            x.suc ? x.suc(val): x.fail(val)
-        })
+        // call all stored success callbacks
+        this.callbacks.forEach(cb => cb.suc && cb.suc(val));
+        this.callbacks = []; // cleanup to prevent memory leak
     }
-    
-    const reject=(val)=>{
-        if (this.status!='pending') return; // avoid multiple settle
-         this.status = 'failed';
-         this.value = val;
-         this.callbacks.forEach((x)=>{
-            x.fail && x.fail(val)
-        })
+
+    const reject = (val) => {
+        if (this.status !== 'pending') return;
+        this.status = 'failed';
+        this.value = val;
+        // call all stored failure callbacks
+        this.callbacks.forEach(cb => cb.fail && cb.fail(val));
+        this.callbacks = []; // cleanup
     }
-    
-    executeFn(resolve,reject);
+
+    try {
+        executeFn(resolve, reject);
+    } catch (err) {
+        reject(err);
+    }
 }
 
-myPromise.prototype.then = function(suc,fail){ 
-    if(this.status =='success') 
-        suc(this.value);
-    else if(this.status=='failed') 
-        fail(this.value);
-    else
-    this.callbacks.push({suc,fail})
-}
-myPromise.prototype.catch = function(f) {
-    return this.then(null,f)
+// .then method
+myPromise.prototype.then = function(suc, fail) {
+    if (this.status === 'success' && suc) {
+        suc(this.value); // already resolved → call immediately
+    } else if (this.status === 'failed' && fail) {
+        fail(this.value); // already rejected → call immediately
+    } else {
+        // still pending → store for later
+        this.callbacks.push({ suc, fail });
+    }
+    return this; // allow chaining (simple chaining without returning new promises)
 }
 
-const p = new myPromise((res,rej)=>{
-    setTimeout(()=>{
+// .catch shorthand
+myPromise.prototype.catch = function(fail) {
+    return this.then(null, fail);
+}  
+
+const p = new myPromise((res, rej) => {
+    setTimeout(() => {
         console.log('work done');
-         res('resolved to 1')
-        rej('failed with rej');
-       
-    },2000)
+        res('resolved to 1');
+        rej('failed with rej'); // ignored, only first settlement counts
+    }, 2000);
 });
 
-p.then((x)=>console.log('msg on worked callback',x,'\n'),
-(x)=>{console.log('msg on failed callback-',x,'\n')});
-p.catch(x=>console.log(x));
+// success + failure callbacks
+p.then(
+    x => console.log('worked callback:', x),
+    x => console.log('failed callback:', x)
+);
 
-console.log(p);
-setTimeout(()=>{
-        console.log(p);
-    },3000);
+// catch shorthand
+p.catch(x => console.log('caught via catch:', x));
 
-p.then((x)=>console.log('msg on worked callback',x,'\n'),(x)=>{console.log('msg on failed callback-',x,'\n')});
-p.catch(x=>console.log(x));
-
+setTimeout(() => {
+    // calling .then/.catch after settlement
+    p.then(
+        x => console.log('later worked:', x),
+        x => console.log('later failed:', x)
+    );
+    p.catch(x => console.log('later caught:', x));
+}, 3000);
