@@ -1,0 +1,19 @@
+let debounce = (fn,t)=>{
+    let timerId ;
+    return function f(...args){
+         clearTimeout(timerId);
+         timerId = setTimeout(()=>{
+            fn(...args);
+         },t);
+    }
+   
+}
+
+
+let search =(q)=>{ console.log('searching - ',q) }
+
+let searchDebounce = debounce(search,1000);
+
+
+searchDebounce('pavan');
+searchDebounce('pavan dongare');
