@@ -6,4 +6,13 @@ const add = (a)=>{
     }
 }
 
-let x = console.log(add(2)(3)(4));
+const addShort = (a)=>(b)=>(c)=> a+b+c;
+
+
+ console.log(add(2)(3)(4));
+ console.log(addShort(2)(3)(4));
+
+// purpose, when you are progressively going to get inputs & each function incrementally does a work 
+
+
+
