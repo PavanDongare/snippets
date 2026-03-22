@@ -1,0 +1,24 @@
+// stop requests beyond a count + within t time, then reset.
+let throttle =(fn,cnt,t)=>{
+    let count = 0;
+    let running = false;
+    return function(...args){
+       
+        if(count<cnt) {
+            count++;
+            fn(...args);
+        } else return;
+            
+        running = true;
+        setTimeout(()=>{
+            count =0;
+            running = false;
+        },t)
+    }
+}
+
+const withThrottle = throttle((i)=>{console.log('call',i)},3,1000);
+
+for(let i=0;i<5;i++){
+    withThrottle(i);
+}
