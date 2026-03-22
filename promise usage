@@ -1,0 +1,26 @@
+
+let p = (f,cb,er)=>{
+      return function(...args){
+          try{
+            f(...args);
+            cb();
+          }catch(e){
+            er(e)
+          }
+      }
+}
+
+const m = (msg)=> 
+     {console.log('main',msg); throw new Error();};
+const cb = ()=> console.log('callback on main succ');
+const er =(e)=> console.log('got this error -',e);
+const p1 = p(m,cb,er);
+p1('content');
+
+-------------- promose example --------------
+p = new Promise((res,rej)=>{
+    res('worked');
+    rej('failed');
+});
+
+p.then(x=>console.log(x)).catch(x=>console.log(x));
