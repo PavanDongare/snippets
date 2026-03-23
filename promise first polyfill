@@ -1,0 +1,35 @@
+// Online Javascript Editor for free
+// Write, Edit and Run your Javascript code using JS Online Compiler
+
+const f1 = new Promise((resolve,reject)=>{
+    setTimeout(x=>{
+        resolve(1);
+    },1000)
+});
+const f2 = new Promise((resolve,reject)=>{
+    setTimeout(x=>{
+        resolve(2);
+    },2000)
+});
+
+const f3 = new Promise((resolve,reject)=>{
+    setTimeout(x=>{
+        resolve(3);
+    },3000)
+});
+
+Promise.race([f1,f2,f3]).then(x=>{
+    console.log(x);
+})
+
+Promise.first = (arr)=>{
+    return new Promise((res,rej)=>{
+        arr.forEach((x)=>{
+            Promise.resolve(x).then(x=>{ res(x); return});
+        })
+    })
+}
+
+Promise.first([f1,f2,f3]).then(x=>{
+    console.log(x);
+})
