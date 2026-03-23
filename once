@@ -1,0 +1,22 @@
+let once = function(f){
+    let res = undefined;
+    let called = false
+    
+    return function(...args){
+        if(!called) {
+            called = true;
+            res = f(...args)
+        } 
+        return res;
+    }
+}
+
+
+const init = once(() => {
+  console.log('initializing...');
+  return 42;
+});
+
+console.log(init()); // 'initializing...' → 42
+console.log(init()); // 42  (no log — not executed again)
+console.log(init()); // 42
