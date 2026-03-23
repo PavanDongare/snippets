@@ -49,5 +49,33 @@ Promise.all2([f1,f2,f3]).then(([r1,r2,r3])=>{
     console.log(r1,'\n',r2,'\n',r3)
 })
 
+---------------------
+
+
+
+Promise.all([f1,f2,f3]).then(x=>{
+    console.log('all done',x);
+})
+
+Promise.prototype.everything =(arr)=>{
+    let ans = [];
+    let count = 0;
+    return new Promise((res,rej)=>{
+        arr.forEach((x,i)=>{
+            Promise.resolve(x).then(val=>
+            {
+             ans[i]=val
+             count++;
+            })
+          
+        })
+        if(count==arr.length) res(ans);
+    })
+}
+
+Promise.prototype.everything([f1,f2,f3]).then(x=>{
+    console.log('all done',x);
+})
+
 
 
