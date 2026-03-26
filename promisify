@@ -1,0 +1,21 @@
+let doubleSync = x => x*2 
+let doubleAsync = (x,cb) => setTimeout(()=>cb(null,2*x),100)
+
+console.log(doubleSync(10));
+doubleAsync(20,(err,data)=>{err?console.log(err):console.log(data)});
+
+// promisify - takes funtion(...arg,cb) returns a function that returns Promise with cb s & cb err on res and rej
+
+// promise version of function, instead of returning value or calling cb(err,suc), call then and catch via res & rej passing the data
+
+function Promisify(fn){
+    return function(...args){
+        return new Promise((res,rej)=>{
+            fn(...args,(err,...data)=>{ err ? rej(err): res(...data) })
+        })
+    }
+}
+
+Promisify(doubleAsync)(30)
+.then(x=>console.log(x,'success'))
+                        .catch(x=>console.log(x,'fail'))
