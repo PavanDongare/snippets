@@ -1,9 +1,55 @@
-let nums = [1,2,3,4];
+let a = [1,2,3,4,5,6];
 
-console.log(nums.map((x)=>{return x+1})); // all value appended 
+ a.forEach(x=>console.log(x));
+// a.filter((ele,index,arr)=>{
+//     console.log(
+//         `ele - ${ele} \n
+//          index -${index} \n
+//          array - ${arr} \n`
+//         )
+// })
 
-console.log(nums.filter((x)=>{return x%2}));// append x if true
+/*
+map
+filter-   cb (e,i,arr) over each, push(e) if cb true
+reduce    cb(a,e,i,arr),1 over each, acc = cb
+forEach - cb(e,i,ar) over each, no return
+*/
 
-console.log(nums.reduce((single,x)=>
-{return single+x})) // return single value based on x
+Array.prototype.filterNew = function (cb){
+     let newArray = [];
+     if(Array.isArray(this)){
+        this.forEach((x,index,arr)=>{
+           if(cb(x,index,arr)==true) newArray.push(x);
+        })
+        return newArray;
+    }
+}
+Array.prototype.map = function(cb){
+    let newArray=[]
+}
 
+console.log(a.filter((x,index,array)=>{return true})) // even;
+console.log(a.filterNew((x,index,array)=>{return true})) // even;
+
+
+Array.prototype.reduceNew = function(cb,initial){
+    let acc = initial!=undefined ? initial : 0;
+    if(Array.isArray(this)){
+        this.forEach((x,index,arr)=>{
+           acc =  cb(acc,x,index,arr);
+        })
+        return acc;
+    }
+}
+
+// a.reduceNew((accVal,ele,index,arr)=>{ // 2nd arg = initial value, always return accVal
+//     console.log(
+//         `val- ${accVal}
+//          ele - ${ele} \n
+//          index -${index} \n
+//          array - ${arr} \n`
+//         )
+//         accVal= accVal+ele
+//         return accVal;
+// },1)
