@@ -23,4 +23,53 @@ function (obj,...initialArgs){
 f = fn.bound(obj,'hello')
 f('how are you')
 
+//-----------
+
+/*
+call - call the this function with passed object as this
+apply - "" + function args in array
+bind - return fn with + call
+*/
+
+
+const furniture = {
+    weight : 10,
+    warrenty: 2
+}
+
+const getFurnitureInfo = function(day,msg){
+    return `Your furn. got ${day}. weight is ${this.weight} and warrenty is ${this.warrenty}, ${msg} `
+        
+}
+
+console.log(getFurnitureInfo('today')); // undefined
+console.log(getFurnitureInfo.call(furniture,'yesterday'))
+console.log(getFurnitureInfo.apply(furniture,['yesterday','have good day']))
+
+let f = getFurnitureInfo.bind(furniture);
+console.log(f('yesterday night','good night'));
+
+
+Function.prototype.applyNew= function(obj,[...rest]){
+    obj.fn = this;
+    let res = obj.fn(...rest);
+    delete fn;
+    return res;
+}
+
+Function.prototype.bindNew = function(obj,...initial){
+    let fn = this
+    return function(...rest){
+        return fn.apply(obj,[...initial,...rest])
+    }
+}
+let f2 = getFurnitureInfo.bindNew(furniture);
+console.log(f2('yesterday night','good night****'));
+
+
+
+console.log(getFurnitureInfo.applyNew(furniture,['3 days before','Have fun']))
+
+
+
 
