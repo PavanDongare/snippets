@@ -71,3 +71,52 @@ setTimeout(() => {
     );
     p.catch(x => console.log('later caught:', x));
 }, 3000);
+
+
+// ---------------------simple promise -------
+
+
+  
+  const newPromise = function(cb){
+      this.val = undefined;
+      this.status = 'pending';
+      this.s_cb = [];
+      this.r_cb = [];
+      
+      let self = this;
+      resolve = function(val){
+          self.s_cb.forEach((x)=>{
+              x(val);
+          })
+      }
+      reject = function(err){
+          self.r_cb.forEach((x)=>{
+              x(err);
+          })
+      }
+      try{
+          cb(resolve,reject);
+      }catch(e){reject(e)}
+  }
+
+newPromise.prototype.then = function(s_cb){
+    this.s_cb.push(s_cb);
+    return this;
+}
+newPromise.prototype.catch = function(r_cb){
+    this.r_cb.push(r_cb)
+    // this.then(null,r_cb)
+    return this;
+}
+
+
+const p = new newPromise((resolve,reject)=>{
+    // main async code to execute using promise
+    setTimeout(()=>{
+        resolve(10)
+    },10);
+});
+
+p.then((x)=>console.log(x,'resolved'))
+p.catch((x)=>console.log(x,'rejected'))
+  
