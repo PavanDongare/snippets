@@ -17,3 +17,22 @@ let searchDebounce = debounce(search,1000);
 
 searchDebounce('pavan');
 searchDebounce('pavan dongare');
+
+// -------
+
+
+const debounce = function(fn){
+    let id;
+    return function(...args){
+        clearTimeout(id)
+        id = setTimeout(()=>{
+            fn(...args);
+        },1000);
+    }
+}
+
+
+let f = debounce(()=>console.log('*'));
+f();
+f();
+f();
