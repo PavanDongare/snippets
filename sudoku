@@ -1,0 +1,35 @@
+export function verify_sudoku_board(board) {
+  let rh = [];
+  let ch = [];
+  let cellH = [];
+
+  for (let i = 0; i < 9; i++) {
+    rh.push(new Map());
+    ch.push(new Map());
+    cellH.push(new Map());
+  }
+
+  let isValid = true;
+
+  board.forEach((row, r) => {
+    if (!isValid) return;
+
+    row.forEach((val, c) => {
+      if (!isValid) return;
+      if (val === 0) return;
+
+      let boxIndex = Math.floor(r / 3) * 3 + Math.floor(c / 3);
+
+      if (rh[r].has(val) || ch[c].has(val) || cellH[boxIndex].has(val)) {
+        isValid = false;
+        return;
+      }
+
+      rh[r].set(val, 1);
+      ch[c].set(val, 1);
+      cellH[boxIndex].set(val, 1);
+    });
+  });
+
+  return isValid;
+}
