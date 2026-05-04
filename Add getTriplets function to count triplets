@@ -1,0 +1,41 @@
+let nums = [1,1,1,1,1]
+let t = 1
+// Output: 5
+
+let getTriplets = (nums,t)=>{
+    let ans = 0;
+    let h = new Map();
+    let r = new Map();
+    
+    nums.forEach((x,i)=>{
+        if(i==0) return;
+        (r.get(x) ) ? r.set(x,r.get(x)+1) : r.set(x,1);
+    })
+    
+    nums.forEach((x,i)=>{
+        let leftFreq = 0;
+        let rightFreq = 0;
+        
+ 
+        
+        leftFreq = h.get(x/t) ? h.get(x/t): 0;
+        rightFreq = r.get(x*t)? r.get(x*t): 0;
+        
+        
+        ans = ans + leftFreq*rightFreq;
+       
+        console.log(h,x,r,leftFreq,rightFreq);
+       
+       
+        h.get(x) ? h.set(x,h.get(x)+1):h.set(x,1);
+        r.get(x) ? r.set(x,r.get(x)-1):r.set(x,0);
+        
+             
+    })
+   
+    
+    console.log(r);
+    return ans;
+}
+
+console.log(getTriplets(nums,t));
