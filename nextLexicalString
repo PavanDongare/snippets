@@ -1,0 +1,50 @@
+// Input: s = 'abcd'
+// Output: 'abdc'
+
+let s = 'dcba'
+console.log('input',s);
+
+
+let swapLwithMinLarger = (arr,l) =>{
+    let i = arr.length-1;
+    console.log(arr[i],'&',arr[l])
+    console.log(arr[i].charCodeAt(),arr[l].charCodeAt())
+    
+    while(arr[i].charCodeAt()<arr[l].charCodeAt()) {
+        console.log(arr[i].charCodeAt(),'<',arr[l].charCodeAt())
+        i--;
+    }
+    console.log('swapping',arr[l],arr[i]);
+    let t = arr[l];
+    arr[l]=arr[i];
+    arr[i]=t;
+    console.log('swapped',arr.join(''))
+}
+let reverseAfterL  = (arr,l) =>{
+    let ans = [...arr.slice(0,l),...arr.slice(l+1,arr.length).reverse()]
+    let tillL =  arr.slice(0,l+1);
+    let afterL = arr.slice(l+1,arr.length+1)
+    console.log(tillL);
+    console.log(afterL);
+    return [...tillL,...afterL.reverse()].join('');
+}
+
+s = s.split('');
+l=s.length-1;
+
+
+while(l>0 && s[l].charCodeAt() <= s[l-1].charCodeAt() ) {
+     console.log(s[l],'<', s[l-1],l);
+     l--
+}
+
+if(l==0) console.log('ans',s.reverse().join('')) 
+
+console.log('L:',l,'pivot',s[l])
+swapLwithMinLarger(s,l);
+console.log(reverseAfterL(s,l));
+
+
+
+
+
